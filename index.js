@@ -77,6 +77,15 @@ async function run() {
             res.send(result)
         })
 
+        // Delete api
+        app.delete('/allcourse/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await allCourseCollection.deleteOne(query)
+            res.send(result)
+
+        })
+
         // search api
         app.get('/search', async (req, res) => {
             const searchText = req.query.search
