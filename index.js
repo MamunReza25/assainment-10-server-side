@@ -39,7 +39,12 @@ async function run() {
             const result = await allCourseCollection.find().toArray()
             res.send(result);
         });
-
+        // user ar post my added page rakhbo
+        app.get('/myAdedCourse', async (req, res) => {
+            const email = req.query.email;
+            const result = await allCourseCollection.find({ created_by: email }).toArray();
+            res.send(result)
+        })
 
         // client side theke data add to database
         app.post('/allcourse', async (req, res) => {
@@ -57,6 +62,19 @@ async function run() {
             const query = { _id: new ObjectId(id) };
             const result = await allCourseCollection.findOne(query)
             res.send(result);
+        })
+
+        // update api put method
+        app.put('/allcourse/:id', async (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            console.log(`need id`, id)
+            const query = { _id: new ObjectId(id) };
+            const update = {
+                $set: data
+            }
+            const result = await allCourseCollection.updateOne(query, update)
+            res.send(result)
         })
 
         // search api
