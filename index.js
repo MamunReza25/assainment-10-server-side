@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
@@ -37,6 +37,15 @@ async function run() {
         // findOne()
         app.get('/allcourse', async (req, res) => {
             const result = await allCourseCollection.find().toArray()
+            res.send(result);
+        });
+
+        // allcourse detailes  findOne
+        app.get('/allcourse/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(`need id`, id)
+            const query = { _id: new ObjectId(id) };
+            const result = await allCourseCollection.findOne(query)
             res.send(result);
         })
 
