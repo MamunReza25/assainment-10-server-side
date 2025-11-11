@@ -49,6 +49,12 @@ async function run() {
             res.send(result);
         })
 
+        // search api
+        app.get('/search', async (req, res) => {
+            const searchText = req.query.search
+            const result = await allCourseCollection.find({ title: { $regex: searchText, $options: "i" } }).toArray()
+            res.send(result)
+        })
 
 
 
