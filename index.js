@@ -40,6 +40,16 @@ async function run() {
             res.send(result);
         });
 
+
+        // client side theke data add to database
+        app.post('/allcourse', async (req, res) => {
+            const newAdd = req.body;
+            console.log(newAdd)
+            const result = await allCourseCollection.insertOne(newAdd)
+            res.send(result)
+
+        })
+
         // allcourse detailes  findOne
         app.get('/allcourse/:id', async (req, res) => {
             const id = req.params.id;
