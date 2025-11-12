@@ -31,6 +31,7 @@ async function run() {
         // create mongobd database
         const db = client.db("assainment_10_db");
         const allCourseCollection = db.collection("all_course");
+        const enrollCollection = db.collection("enroll_course");
 
         // all course data client side data show korar api
         // find()
@@ -45,7 +46,20 @@ async function run() {
             const result = await allCourseCollection.find({ created_by: email }).toArray();
             res.send(result)
         })
+        // enroll course api
+        app.post('/enrollCourse', async (req, res) => {
+            const newEnroll = req.body;
+            console.log(newEnroll);
+            const result = await enrollCollection.insertOne(newEnroll)
+            res.send(result)
+        })
 
+        // enroll course get api databse theke enroll page a dekhano
+        app.get('/enrollCourse', async (req, res) => {
+            const email = req.query.email;
+            const result = await enrollCollection.find({ created_by: email }).toArray();
+            res.send(result)
+        })
         // client side theke data add to database
         app.post('/allcourse', async (req, res) => {
             const newAdd = req.body;
